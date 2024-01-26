@@ -5,22 +5,22 @@ const userService = require("../services/user-service");
 
 const authenticate = async (req, res, next)=> {
     try {
-        const {authorization} =req.headers;
+        const {authorization} = req.headers;
 
         if(!authorization) {
             return createError(401, "Unauthorized");
         }
 
-        const arrayToken = authorization.splite(" ");
+        const arrayToken = authorization.split(" ");
         const token = arrayToken[1];
 
-        if(authorization[0] !== "Bearer" || !token) {
+        if(arrayToken[0] !== "Bearer" || !token) {
             return createError(401, "Unauthorized");
         }
 
         const payload = jwt.verify(token, process.env.JWT_SECRET);
 
-        if(typeof payload !== "object" || !payload.id || typeof payload.id !== "string") {
+        if(typeof payload !== "object" || !payload?.id || typeof payload.id !== "number") {
             return createError(400, "Payload not incorrect format");
         }
 

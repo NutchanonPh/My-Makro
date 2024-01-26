@@ -50,7 +50,7 @@ try {
     return createError(400, "Email or passsword is invalid");
   }
 
-  const isPasswordMatch = bcrypt.compare(passsword, isUserExist.passsword);
+  const isPasswordMatch = bcrypt.compare(password, isUserExist.password);
 
   if(!isPasswordMatch) {
     return createError(400, "Email or password is invalid");
@@ -58,8 +58,7 @@ try {
 
   const token = jwt.sign({id: isUserExist.id}, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
-  });
-
+  })
     res.json({ token });
   } catch(err) {
     next(err);
